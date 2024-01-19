@@ -1,0 +1,45 @@
+'use client'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+
+const page = () => {
+
+  const [Images, setImg] = useState([])
+
+  useEffect(() => {
+    getImg()
+
+  }, [])
+
+  const getImg = async () => {
+    try {
+      const response = await axios.get('https://picsum.photos/v2/list/');
+
+      const data = response.data;
+      console.log(data);
+      setImg(data);
+      console.log(Images);
+    } catch (error) {
+      console.error('Error fetching Images!!!');
+    }
+
+  }
+
+  return (
+    <>
+      <div>Main Page</div>
+
+                                        
+      <button onClick={getImg} className='bg-red-400 text-black p-2 m-3 rounded-md'>Get Images</button>
+
+      <div className='p-10 bg-white'>
+        {Images.map((elem, i) => {
+          return <img className='m-3 rounded-sm inline-block' src={elem.download_url} alt="" key={i} height={200} width={300} />
+        })}
+      </div>
+
+    </>
+  )
+}
+
+export default page
